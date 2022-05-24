@@ -351,7 +351,7 @@ class _ReorderableWrapContent extends StatefulWidget {
     this.controller,
     this.reorderAnimationDuration = const Duration(milliseconds: 200),
     this.scrollAnimationDuration = const Duration(milliseconds: 200),
-    required this.enableReorder
+    required this.enableReorder,
   });
 
   final List<Widget>? header;
@@ -1013,15 +1013,23 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
       }
 
       Widget preDragTarget = DragTarget<int>(
-        builder: (BuildContext context, List<int?> acceptedCandidates,
-                List<dynamic> rejectedCandidates) => SizedBox(),
+        builder: (
+          BuildContext context,
+          List<int?> acceptedCandidates,
+          List<dynamic> rejectedCandidates,
+        ) =>
+            SizedBox(),
         onWillAccept: (int? toAccept) => _onWillAccept(toAccept, true),
         onAccept: (int accepted) {},
         onLeave: (Object? leaving) {},
       );
       Widget nextDragTarget = DragTarget<int>(
-        builder: (BuildContext context, List<int?> acceptedCandidates,
-                List<dynamic> rejectedCandidates) => SizedBox(),
+        builder: (
+          BuildContext context,
+          List<int?> acceptedCandidates,
+          List<dynamic> rejectedCandidates,
+        ) =>
+            SizedBox(),
         onWillAccept: (int? toAccept) => _onWillAccept(toAccept, false),
         onAccept: (int accepted) {},
         onLeave: (Object? leaving) {},
@@ -1048,7 +1056,7 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
 
       ///
       /// Defination of variables.
-      /// 
+      ///
       /// 1. index - ตำแหน่งของ widget ที่กำลังถูก wrap ดูจากลำดับที่ตั้งค่าเป็น children ของ ReorderableWrap.
       /// 2. _dragStartIndex - ตำแหน่งของ widget ที่กำลังโดนลาก ดูจากลำดับที่ตั้งค่าเป็น children ของ ReorderableWrap.
       /// 3. _childSizes - list ของขนาด widget ดูจากลำดับที่ตั้งค่าเป็น children ของ ReorderableWrap เปรียบเทียบตำแหน่งกับ index และ _dragStartIndex เท่านั้น.
@@ -1060,59 +1068,58 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
         clipBehavior: Clip.hardEdge,
         children: <Widget>[
           containedDraggable.builder,
-          if (isSmallWidget(_childSizes[index].width) && isSameRow(_currentDisplayIndex, displayIndex))
-            ...[
-              Positioned(
-                left: 0,
-                top: 0,
-                width: _childSizes[index].width * (isFromLeft ? 0.4 : 0.6),
-                height: _childSizes[index].height,
-                child: preDragTarget,
-              ),
-              Positioned(
-                right: 0,
-                bottom: 0,
-                width: _childSizes[index].width * (isFromLeft ? 0.6 : 0.4),
-                height: _childSizes[index].height,
-                child: nextDragTarget,
-              ),
-            ]
-          else if (isSmallWidget(_childSizes[index].width) && isSmallWidget(_childSizes[_dragStartIndex].width))
-            ...[
-              if (displayIndex < _currentDisplayIndex)
-                Positioned(
-                  left: 0,
-                  top: 0,
-                  width: _childSizes[index].width,
-                  height: _childSizes[index].height * ((_currentDisplayIndex < displayIndex) ? 0.4 : 0.6),
-                  child: preDragTarget,
-                )
-              else
-                Positioned(
-                  right: 0,
-                  bottom: 0,
-                  width: _childSizes[index].width,
-                  height: _childSizes[index].height * ((_currentDisplayIndex < displayIndex) ? 0.6 : 0.4),
-                  child: nextDragTarget,
-                ),
-            ]
-          else
-            ...[
+          if (isSmallWidget(_childSizes[index].width) &&
+              isSameRow(_currentDisplayIndex, displayIndex)) ...[
+            Positioned(
+              left: 0,
+              top: 0,
+              width: _childSizes[index].width * (isFromLeft ? 0.4 : 0.6),
+              height: _childSizes[index].height,
+              child: preDragTarget,
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              width: _childSizes[index].width * (isFromLeft ? 0.6 : 0.4),
+              height: _childSizes[index].height,
+              child: nextDragTarget,
+            ),
+          ] else if (isSmallWidget(_childSizes[index].width) &&
+              isSmallWidget(_childSizes[_dragStartIndex].width)) ...[
+            if (displayIndex < _currentDisplayIndex)
               Positioned(
                 left: 0,
                 top: 0,
                 width: _childSizes[index].width,
-                height: _childSizes[index].height * 0.5,
+                height: _childSizes[index].height *
+                    ((_currentDisplayIndex < displayIndex) ? 0.4 : 0.6),
                 child: preDragTarget,
-              ),
+              )
+            else
               Positioned(
                 right: 0,
                 bottom: 0,
                 width: _childSizes[index].width,
-                height: _childSizes[index].height * 0.5,
+                height: _childSizes[index].height *
+                    ((_currentDisplayIndex < displayIndex) ? 0.6 : 0.4),
                 child: nextDragTarget,
               ),
-            ],
+          ] else ...[
+            Positioned(
+              left: 0,
+              top: 0,
+              width: _childSizes[index].width,
+              height: _childSizes[index].height * 0.5,
+              child: preDragTarget,
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              width: _childSizes[index].width,
+              height: _childSizes[index].height * 0.5,
+              child: nextDragTarget,
+            ),
+          ],
         ],
       );
 //      return dragTarget;
@@ -1222,14 +1229,20 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
   }
 
   bool isSmallWidget(double width) =>
-    width <= (MediaQuery.of(context).size.width / 2) + 20;
+      width <= (MediaQuery.of(context).size.width / 2) + 20;
 
   List<List<int>> groupWidgetIndexByRow() {
     final rows = <List<int>>[];
 
-    final entities = _childIndexToDisplayIndex.mapIndexed((childIndex, displayIndex) {
-      return MapEntry(displayIndex, _childSizes[childIndex]);
-    }).sorted((a, b) => a.key - b.key);
+    final entities = _childIndexToDisplayIndex
+        .mapIndexed(
+          (
+            childIndex,
+            displayIndex,
+          ) =>
+              MapEntry(displayIndex, _childSizes[childIndex]),
+        )
+        .sorted((a, b) => a.key - b.key);
 
     entities.forEach((entity) {
       final index = entity.key;
@@ -1240,7 +1253,7 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
         if (canAddToLastRow) {
           rows.last.add(index);
         } else {
-          rows.add([index]);              
+          rows.add([index]);
         }
       } else {
         rows.add([index, -1]);
