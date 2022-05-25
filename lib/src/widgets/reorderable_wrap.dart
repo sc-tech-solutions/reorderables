@@ -1090,6 +1090,22 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
               height: _childSizes[index].height,
               child: nextDragTarget,
             ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              width: _childSizes[index].width,
+              height: _childSizes[index].height,
+              child: Center(
+                child: Text(
+                  '1',
+                  textScaleFactor: 2,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
           ] else if (isSmallWidget(_childSizes[index].width) &&
               isSmallWidget(_childSizes[_dragStartIndex].width)) ...[
             if (displayIndex < _currentDisplayIndex)
@@ -1110,6 +1126,22 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
                     ((_currentDisplayIndex < displayIndex) ? 0.6 : 0.4),
                 child: nextDragTarget,
               ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              width: _childSizes[index].width,
+              height: _childSizes[index].height,
+              child: Center(
+                child: Text(
+                  '2',
+                  textScaleFactor: 2,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
           ] else ...[
             Positioned(
               left: 0,
@@ -1124,6 +1156,22 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
               width: _childSizes[index].width,
               height: _childSizes[index].height * 0.5,
               child: nextDragTarget,
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              width: _childSizes[index].width,
+              height: _childSizes[index].height,
+              child: Center(
+                child: Text(
+                  '3',
+                  textScaleFactor: 2,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
             ),
           ],
         ],
