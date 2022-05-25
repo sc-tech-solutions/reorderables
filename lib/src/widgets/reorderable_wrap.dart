@@ -1254,15 +1254,20 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
       final index = entity.key;
       final size = entity.value;
 
-      if (isSmallWidget(size.width)) {
-        final canAddToLastRow = rows.lastOrNull?.length == 1;
+      if (isSmallWidget(size.width) && rows.isNotEmpty) {
+        final hasLast = rows.lastOrNull?.lastOrNull != null;
+        final hasSmallAtLast =
+            hasLast && isSmallWidget(entities[rows.last.last].value.width);
+
+        final canAddToLastRow = rows.lastOrNull?.length == 1 && hasSmallAtLast;
+
         if (canAddToLastRow) {
           rows.last.add(index);
         } else {
           rows.add([index]);
         }
       } else {
-        rows.add([index, -1]);
+        rows.add([index]);
       }
     });
 
