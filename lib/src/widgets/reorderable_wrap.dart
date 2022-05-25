@@ -1234,6 +1234,10 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
     return KeyedSubtree(key: ValueKey(index), child: builder);
   }
 
+  bool hasIndex(int index) => index >= 0 && index < _childSizes.length;
+
+  bool isSmallAt(int index) => isSmallWidget(_childSizes[index].width);
+
   bool isSmallWidget(double width) =>
       width <= (MediaQuery.of(context).size.width / 2) + 20;
 
@@ -1272,6 +1276,32 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
     });
 
     return rows;
+  }
+
+  bool hasOtherWidgetInRowOfIndex(int index) {
+    final row = _displayIndexesRows.firstWhereOrNull(
+      (row) => row.contains(index),
+    );
+
+    return row != null && row.length > 1;
+  }
+
+  bool shouldExpand(int index) {
+    final hasSingleSmallInCurrentRow = hasIndex(index) &&
+        isSmallAt(index) &&
+        !hasOtherWidgetInRowOfIndex(index);
+
+    final hasSingleSmallInPrevRow = hasIndex(index - 1) &&
+        isSmallAt(index - 1) &&
+        !hasOtherWidgetInRowOfIndex(index - 1);
+
+    final hasSingleSmallInNextRow = hasIndex(index + 1) &&
+        isSmallAt(index + 1) &&
+        !hasOtherWidgetInRowOfIndex(index + 1);
+
+    return hasSingleSmallInCurrentRow &&
+        !hasSingleSmallInPrevRow &&
+        !hasSingleSmallInNextRow;
   }
 
   @override
