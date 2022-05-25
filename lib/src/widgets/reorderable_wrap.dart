@@ -1146,21 +1146,21 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
             Positioned(
               left: 0,
               top: 0,
-              width: _childSizes[index].width,
+              width: MediaQuery.of(context).size.width,
               height: _childSizes[index].height * 0.5,
               child: preDragTarget,
             ),
             Positioned(
               right: 0,
               bottom: 0,
-              width: _childSizes[index].width,
+              width: MediaQuery.of(context).size.width,
               height: _childSizes[index].height * 0.5,
               child: nextDragTarget,
             ),
             Positioned(
               right: 0,
               bottom: 0,
-              width: _childSizes[index].width,
+              width: MediaQuery.of(context).size.width,
               height: _childSizes[index].height,
               child: Center(
                 child: Text(
