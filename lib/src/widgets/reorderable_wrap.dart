@@ -57,7 +57,6 @@ class ReorderableWrap extends StatefulWidget {
     this.minMainAxisCount,
     this.maxMainAxisCount,
     this.onNoReorder,
-    this.onReorderWillStart,
     this.onReorderStarted,
     this.reorderAnimationDuration = const Duration(milliseconds: 200),
     this.scrollAnimationDuration = const Duration(milliseconds: 200),
@@ -109,9 +108,6 @@ class ReorderableWrap extends StatefulWidget {
   /// children.
   final ReorderCallback onReorder;
   final NoReorderCallback? onNoReorder;
-
-  /// Called when the draggable will starts drag.
-  final ReorderWillStartCallback? onReorderWillStart;
 
   /// Called when the draggable starts being dragged.
   final ReorderStartedCallback? onReorderStarted;
@@ -290,7 +286,6 @@ class _ReorderableWrapState extends State<ReorderableWrap> {
           scrollPhysics: widget.scrollPhysics,
           onReorder: widget.onReorder,
           onNoReorder: widget.onNoReorder,
-          onReorderWillStart: widget.onReorderWillStart,
           onReorderStarted: widget.onReorderStarted,
           padding: widget.padding,
           buildItemsContainer: widget.buildItemsContainer,
@@ -338,7 +333,6 @@ class _ReorderableWrapContent extends StatefulWidget {
     required this.padding,
     required this.onReorder,
     required this.onNoReorder,
-    required this.onReorderWillStart,
     required this.onReorderStarted,
     required this.buildItemsContainer,
     required this.buildDraggableFeedback,
@@ -370,7 +364,6 @@ class _ReorderableWrapContent extends StatefulWidget {
   final EdgeInsets? padding;
   final ReorderCallback onReorder;
   final NoReorderCallback? onNoReorder;
-  final ReorderWillStartCallback? onReorderWillStart;
   final ReorderStartedCallback? onReorderStarted;
   final BuildItemsContainer? buildItemsContainer;
   final BuildDraggableFeedback? buildDraggableFeedback;
@@ -644,8 +637,6 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
 
     // Starts dragging toWrap.
     void onDragStarted() {
-      widget.onReorderWillStart?.call(index);
-
       setState(() {
         _draggingWidget = toWrap;
 //        _dragging = index;//toWrap.key;
