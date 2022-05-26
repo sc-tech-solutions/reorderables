@@ -1014,16 +1014,14 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
 
       Widget preDragTarget = DragTarget<int>(
         builder: (BuildContext context, List<int?> acceptedCandidates,
-                List<dynamic> rejectedCandidates) =>
-            Opacity(opacity: 0.2, child: Container(color: Colors.green, child: SizedBox())),
+                List<dynamic> rejectedCandidates) => SizedBox(),
         onWillAccept: (int? toAccept) => _onWillAccept(toAccept, true),
         onAccept: (int accepted) {},
         onLeave: (Object? leaving) {},
       );
       Widget nextDragTarget = DragTarget<int>(
         builder: (BuildContext context, List<int?> acceptedCandidates,
-                List<dynamic> rejectedCandidates) =>
-            Opacity(opacity: 0.2, child: Container(color: Colors.amber, child: SizedBox())),
+                List<dynamic> rejectedCandidates) => SizedBox(),
         onWillAccept: (int? toAccept) => _onWillAccept(toAccept, false),
         onAccept: (int accepted) {},
         onLeave: (Object? leaving) {},
@@ -1103,15 +1101,15 @@ class _ReorderableWrapContentState extends State<_ReorderableWrapContent>
               Positioned(
                 left: 0,
                 top: 0,
-                width: _childSizes[index].width,
-                height: _childSizes[index].height * ((_currentDisplayIndex < displayIndex) ? 0.4 : 0.6),
+                width: MediaQuery.of(context).size.width,
+                height: _childSizes[index].height * 0.5,
                 child: preDragTarget,
               ),
               Positioned(
                 right: 0,
                 bottom: 0,
-                width: _childSizes[index].width,
-                height: _childSizes[index].height * ((_currentDisplayIndex < displayIndex) ? 0.6 : 0.4),
+                width: MediaQuery.of(context).size.width,
+                height: _childSizes[index].height * 0.5,
                 child: nextDragTarget,
               ),
             ],
